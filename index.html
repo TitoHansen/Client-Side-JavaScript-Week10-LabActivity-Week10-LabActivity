@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electric Car Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .car-info {
+      margin-bottom: 10px;
+    }
+    button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Electric Car Interface</h1>
+  
+  <div class="car-info">
+    <p>Make: <span id="car-make">Tesla</span></p>
+    <p>Speed: <span id="car-speed">120</span> km/h</p>
+    <p>Charge: <span id="car-charge">23</span>%</p>
+  </div>
+  
+  <button onclick="accelerate()">Accelerate</button>
+  <button onclick="brake()">Brake</button>
+  <button onclick="chargeBattery()">Charge Battery to 90%</button>
+  
+  <script>
+    class Car {
+      constructor(make, speed) {
+        this.make = make;
+        this.speed = speed;
+      }
+
+      accelerate() {
+        this.speed += 10;
+        this.updateUI();
+      }
+
+      brake() {
+        this.speed -= 5;
+        this.updateUI();
+      }
+
+      updateUI() {
+        document.getElementById('car-speed').innerText = this.speed;
+      }
+    }
+
+    class EV extends Car {
+      constructor(make, speed, charge) {
+        super(make, speed);
+        this.charge = charge;
+      }
+
+      chargeBattery(chargeTo) {
+        this.charge = chargeTo;
+        this.updateUI();
+      }
+
+      accelerate() {
+        this.speed += 20;
+        this.charge -= 1;
+        this.updateUI();
+      }
+
+      updateUI() {
+        super.updateUI();
+        document.getElementById('car-charge').innerText = this.charge;
+      }
+    }
+
+    const car1 = new EV('Tesla', 120, 23);
+
+    function accelerate() {
+      car1.accelerate();
+    }
+
+    function brake() {
+      car1.brake();
+    }
+
+    function chargeBattery() {
+      car1.chargeBattery(90);
+    }
+
+    document.getElementById('car-make').innerText = car1.make;
+    document.getElementById('car-speed').innerText = car1.speed;
+    document.getElementById('car-charge').innerText = car1.charge;
+  </script>
+</body>
+</html>
